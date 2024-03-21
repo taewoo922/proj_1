@@ -1,18 +1,13 @@
 package org.example;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
 
-        LocalDate now = LocalDate.now();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        String formatedNow = now.format(formatter);
-        System.out.println(formatedNow);
 
 
         System.out.println("== 프로그램 시작 ==");
@@ -38,8 +33,9 @@ public class Main {
                 break;
             }
 
-            if (cmd.equals("article write")) {
+            if (cmd.equals("게시글 작성")) {
                 int id = lastArticleId + 1;
+                String regDate = Util.getNowDateStr();
                 lastArticleId = id;
                 System.out.println("제목 : ");
                 String title = sc.nextLine();
@@ -47,14 +43,14 @@ public class Main {
                 String body = sc.nextLine();
 
 
-                Article article = new Article(id, title, body);
+                Article article = new Article(id, regDate, title, body);
                 articles. add(article);
 
                 System.out.printf("%d번 글이 생성되었습니다.\n", id);
 
             }
 
-            else if (cmd.equals("article list")) {
+            else if (cmd.equals("게시글 목록")) {
                 if ( articles.size() == 0) {
                     System.out.println("게시물이 없습니다.");
                     continue;
@@ -68,7 +64,7 @@ public class Main {
                 }
             }
 
-            else if (cmd.startsWith("article detail ")){
+            else if (cmd.startsWith("게시글 상세 ")){
                 String[] cmdBits = cmd.split(" ");
                 int id = Integer.parseInt(cmdBits[2]);
                 Article foundarticle = null;
@@ -88,14 +84,15 @@ public class Main {
                 }
 
                 System.out.printf("번호 : %d\n", foundarticle.id);
+                System.out.printf("날짜 : %s\n", foundarticle.regDate);
                 System.out.printf("제목 : %s\n", foundarticle.title);
                 System.out.printf("내용 : %s\n", foundarticle.body);
-                System.out.println("날짜 : " + formatedNow);
+
 
 
 
             }
-            else if (cmd.startsWith("article delete ")){
+            else if (cmd.startsWith("게시글 삭제 ")){
                 String[] cmdBits = cmd.split(" ");
                 int id = Integer.parseInt(cmdBits[2]);
 
@@ -127,7 +124,6 @@ public class Main {
                 System.out.printf("%s(은)는 존재하지 않는 명령어 입니다\n", cmd);
             }
         }
-        System.out.println(now);
 
         sc.close();
         System.out.println("== 프로그램 끝 ==");
@@ -136,14 +132,18 @@ public class Main {
 
 class Article {
     int id;
+    String regDate;
     String title;
     String body;
 
 
-    public Article(int id, String title, String body) {
+
+    public Article(int id, String regDate, String title, String body) {
         this.id = id;
+        this.regDate = regDate;
         this.title = title;
         this.body = body;
     }
 }
+
 
