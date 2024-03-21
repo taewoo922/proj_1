@@ -73,16 +73,9 @@ public class App {
             else if (cmd.startsWith("게시물 보기 ")){
                 String[] cmdBits = cmd.split(" ");
                 int id = Integer.parseInt(cmdBits[2]);
-                Article foundarticle = null;
 
-                for (int i = 0; i < articles.size(); i++) {
-                    Article article = articles.get(i);
-                    if (article.id == id) {
-                        foundarticle = article;
-                        //article.id와 id가 동일하다면 foundarticle에 article을 저장
-                        break;
-                    }
-                }
+                Article foundarticle = getArticleById(id);
+
                 if (foundarticle == null) {
                     //foundarticle이 null값이라면 실행
                     System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -106,16 +99,9 @@ public class App {
             else if (cmd.startsWith("게시물 수정 ")){
                 String[] cmdBits = cmd.split(" ");
                 int id = Integer.parseInt(cmdBits[2]);
-                Article foundarticle = null;
 
-                for (int i = 0; i < articles.size(); i++) {
-                    Article article = articles.get(i);
-                    if (article.id == id) {
-                        foundarticle = article;
-                        //article.id와 id가 동일하다면 foundarticle에 article을 저장
-                        break;
-                    }
-                }
+                Article foundarticle = getArticleById(id);
+
                 if (foundarticle == null) {
                     //foundarticle이 null값이라면 실행
                     System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -144,16 +130,8 @@ public class App {
                 int id = Integer.parseInt(cmdBits[2]);
 
 
-                int foundIndex = -1;
+                int foundIndex = getArticleIndexById(id);
 
-                for (int i = 0; i < articles.size(); i++) {
-                    Article article = articles.get(i);
-                    if (article.id == id) {
-                        foundIndex = i;
-                        //article.id와 id가 동일하다면 foundarticle에 article을 저장
-                        break;
-                    }
-                }
                 if ( foundIndex == -1) {
                     //foundarticle이 null값이라면 실행
                     System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -174,6 +152,26 @@ public class App {
 
         sc.close();
         System.out.println("== 프로그램 끝 ==");
+    }
+
+    private int getArticleIndexById(int id) {
+        int i = 0;
+        for (Article article : articles) {
+            if ( article.id == id) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
+    }
+
+    private Article getArticleById(int id) {
+        int index = getArticleIndexById(id);
+
+        if( index != -1) {
+            return articles.get(index);
+        }
+        return null;
     }
 
     private void makeTestData() {
