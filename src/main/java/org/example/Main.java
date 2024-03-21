@@ -33,7 +33,7 @@ public class Main {
                 break;
             }
 
-            if (cmd.equals("게시글 작성")) {
+            if (cmd.equals("게시물 작성")) {
                 int id = lastArticleId + 1;
                 String regDate = Util.getNowDateStr();
                 lastArticleId = id;
@@ -46,11 +46,11 @@ public class Main {
                 Article article = new Article(id, regDate, title, body);
                 articles. add(article);
 
-                System.out.printf("%d번 글이 생성되었습니다.\n", id);
+                System.out.printf("%d번 게시물이 생성되었습니다.\n", id);
 
             }
 
-            else if (cmd.equals("게시글 목록")) {
+            else if (cmd.equals("게시물 목록")) {
                 if ( articles.size() == 0) {
                     System.out.println("게시물이 없습니다.");
                     continue;
@@ -64,7 +64,7 @@ public class Main {
                 }
             }
 
-            else if (cmd.startsWith("게시글 상세 ")){
+            else if (cmd.startsWith("게시물 상세 ")){
                 String[] cmdBits = cmd.split(" ");
                 int id = Integer.parseInt(cmdBits[2]);
                 Article foundarticle = null;
@@ -79,7 +79,7 @@ public class Main {
                 }
                 if (foundarticle == null) {
                     //foundarticle이 null값이라면 실행
-                    System.out.printf("%d번 게시글은 존재하지 않습니다.\n", id);
+                    System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
                     continue;
                 }
 
@@ -92,7 +92,44 @@ public class Main {
 
 
             }
-            else if (cmd.startsWith("게시글 삭제 ")){
+
+            else if (cmd.startsWith("게시물 수정 ")){
+                String[] cmdBits = cmd.split(" ");
+                int id = Integer.parseInt(cmdBits[2]);
+                Article foundarticle = null;
+
+                for (int i = 0; i < articles.size(); i++) {
+                    Article article = articles.get(i);
+                    if (article.id == id) {
+                        foundarticle = article;
+                        //article.id와 id가 동일하다면 foundarticle에 article을 저장
+                        break;
+                    }
+                }
+                if (foundarticle == null) {
+                    //foundarticle이 null값이라면 실행
+                    System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+                    continue;
+                }
+
+
+                System.out.println("제목 : ");
+                String title = sc.nextLine();
+                System.out.println("내용 : ");
+                String body = sc.nextLine();
+
+                foundarticle.title = title;
+                foundarticle.body = body;
+
+                System.out.printf("%d번 게시물이 수정되었습니다.\n", id);
+
+
+
+
+            }
+
+
+            else if (cmd.startsWith("게시물 삭제 ")){
                 String[] cmdBits = cmd.split(" ");
                 int id = Integer.parseInt(cmdBits[2]);
 
@@ -109,7 +146,7 @@ public class Main {
                 }
                 if ( foundIndex == -1) {
                     //foundarticle이 null값이라면 실행
-                    System.out.printf("%d번 게시글은 존재하지 않습니다.\n", id);
+                    System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
                     continue;
                 }
 
