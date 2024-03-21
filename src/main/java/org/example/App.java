@@ -56,25 +56,57 @@ public class App {
 
             }
 
-            else if (cmd.equals("게시물 목록")) {
+            else if (cmd.startsWith("게시물 목록")) {
                 if ( articles.size() == 0) {
                     System.out.println("게시물이 없습니다.");
                     continue;
                 }
 
-                System.out.println(" 번호 | 조회 | 제목 | 내용 ");
-                for (int i = articles.size() -1; i >= 0; i--) {
-                    Article article = articles.get(i);
+                String searchKeyword = cmd.substring("게시물 목록".length()).trim();
+                //사용자가 검색어를 입력하면 searchKeyword에 담는다
+//                System.out.printf("검색어 : %s\n", searchKeyword);
+
+                List<Article> forListArticles = articles;
+
+                if (searchKeyword.length() > 0) {         //검색어가 있다면
+                    forListArticles = new ArrayList<>();  //새로운 리스트를 만들어 준다
+
+                    for ( Article article : articles) {                //그리고 반복문을 통해 기존 리스트를 돌고
+                        if (article.title.contains(searchKeyword) ) {  //키워드를 포함한 타이틀이 있다면
+                            forListArticles.add(article);              //그 article을 새로운 리스트에 추가한다.
+                        }
+                    }
+
+                    if ( articles.size() == 0) {
+                        System.out.println("검색결과가 존재하지 않습니다.");
+                        continue;
+                    }
+                }
+
+                System.out.println(" 번호 | 조회 | 제목 | 내용 ");      //만약 검색어를 입력하지 않고 그냥 검색어 목록만
+                for (int i = forListArticles.size() -1; i >= 0; i--) {  //입력하면 모든 목록을 보여준다.
+                    Article article = forListArticles.get(i);
 
                     System.out.printf(" %4d | %4d | %4s | %4s \n", article.id, article.hit, article.title, article.body, article.hit);
                 }
             }
 
-            else if (cmd.startsWith("게시물 보기 ")){
+            else if (cmd.startsWith("게시물 상세 ")){
                 String[] cmdBits = cmd.split(" ");
                 int id = Integer.parseInt(cmdBits[2]);
 
-                Article foundarticle = getArticleById(id);
+//                Article foundarticle = getArticleById(id);
+
+                Article foundarticle = null;
+
+                for ( int i = 0; i < articles.size(); i++ ) {
+                    Article article = articles.get(i);
+
+                    if ( article.id == id ) {
+                        foundarticle = article;
+                        break;
+                    }
+                }
 
                 if (foundarticle == null) {
                     //foundarticle이 null값이라면 실행
