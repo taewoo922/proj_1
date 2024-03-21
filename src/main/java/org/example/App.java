@@ -64,7 +64,7 @@ public class App {
 
                 String searchKeyword = cmd.substring("게시물 목록".length()).trim();
                 //사용자가 검색어를 입력하면 searchKeyword에 담는다
-//                System.out.printf("검색어 : %s\n", searchKeyword);
+
 
                 List<Article> forListArticles = articles;
 
@@ -95,18 +95,9 @@ public class App {
                 String[] cmdBits = cmd.split(" ");
                 int id = Integer.parseInt(cmdBits[2]);
 
-//                Article foundarticle = getArticleById(id);
+               Article foundarticle = getArticleById(id);
 
-                Article foundarticle = null;
 
-                for ( int i = 0; i < articles.size(); i++ ) {
-                    Article article = articles.get(i);
-
-                    if ( article.id == id ) {
-                        foundarticle = article;
-                        break;
-                    }
-                }
 
                 if (foundarticle == null) {
                     //foundarticle이 null값이라면 실행
