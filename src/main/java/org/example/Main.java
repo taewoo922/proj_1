@@ -20,8 +20,6 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
 
-        int lastArticleId = 0;
-        //articles.size() 데이터를 몇개 넣었는지 반환해준다.
 
         while(true) {
             System.out.printf("명령어) ");
@@ -38,9 +36,8 @@ public class Main {
             }
 
             if (cmd.equals("게시물 작성")) {
-                int id = articles.size() + 1;
+                int id = articles.size() + 1; //articles.size() 데이터를 몇개 넣었는지 반환해준다.
                 String regDate = Util.getNowDateStr();
-                lastArticleId = id;
                 System.out.println("제목 : ");
                 String title = sc.nextLine();
                 System.out.println("내용 : ");
