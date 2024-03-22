@@ -39,9 +39,12 @@ public class ArticleController extends Controller {
             case "삭제" :
                 doDelete();
                 break;
+            default:
+                System.out.println("존재하지 않는 명령어 입니다.");
+                break;
         }
-
     }
+
     public void makeTestData() {
         System.out.println("테스트를 위한 게시물 데이터를 생성합니다");
 
