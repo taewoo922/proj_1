@@ -51,6 +51,8 @@ public class ArticleController extends Controller {
         articles.add(new Article(1, Util.getNowDateStr(), "제목 1", "내용 1", 13));
         articles.add(new Article(2, Util.getNowDateStr(), "제목 2", "내용 2", 15));
         articles.add(new Article(3, Util.getNowDateStr(), "제목 3", "내용 3", 100));
+
+
     }
 
     public  void doModify() {
