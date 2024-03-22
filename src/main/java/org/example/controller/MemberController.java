@@ -24,7 +24,7 @@ public class MemberController extends Controller{
         this.cmd = cmd;
 
         switch ( actionMethodName) {
-            case "join" :
+            case "가입" :
                 doJoin();
                 break;
         }

@@ -53,10 +53,10 @@ public class App {
 
             Controller controller = null;
 
-            if( controllerName.equals("article") ) {
+            if( controllerName.equals("게시물") ) {
                 controller = articleController;
             }
-            else if ( controllerName.equals("member")) {
+            else if ( controllerName.equals("회원")) {
                 controller = memberController;
             }
             else {

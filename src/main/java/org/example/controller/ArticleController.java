@@ -24,19 +24,19 @@ public class ArticleController extends Controller {
         this.cmd = cmd;
 
         switch ( actionMethodName) {
-            case "write" :
+            case "작성" :
                 doWrite();
                 break;
-            case "list" :
+            case "목록" :
                 showList();
                 break;
-            case "detail" :
+            case "상세" :
                 showDetail();
                 break;
-            case "modify" :
+            case "수정" :
                 doModify();
                 break;
-            case "delete" :
+            case "삭제" :
                 doDelete();
                 break;
         }
