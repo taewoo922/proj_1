@@ -2,6 +2,7 @@ package org.example;
 import org.example.DTO.Member;
 import org.example.DTO.Article;
 import org.example.controller.ArticleController;
+import org.example.controller.Controller;
 import org.example.controller.MemberController;
 import org.example.util.Util;
 
@@ -46,22 +47,26 @@ public class App {
                 break;
             }
 
-            if (cmd.equals("회원가입")) {
-                memberController.doJoin();
-            } else if (cmd.equals("게시물 작성")) {
-                articleController.doWrite();
-            } else if (cmd.startsWith("게시물 목록")) {
-                articleController.showList(cmd);
-            } else if (cmd.startsWith("게시물 상세 ")) {
-                articleController.showDetail(cmd);
-            } else if (cmd.startsWith("게시물 수정 ")) {
-                articleController.doModify(cmd);
-            } else if (cmd.startsWith("게시물 삭제 ")) {
-                articleController.doDelete(cmd);
-            } else {
-                System.out.printf("%s(은)는 존재하지 않는 명령어 입니다.\n", cmd);
+            String[] cmdBits = cmd.split(" "); //article write
+            String controllerName = cmdBits[0];//article/member
+            String actionMethodName = cmdBits[1]; //write/ list
+
+            Controller controller = null;
+
+            if( controllerName.equals("article") ) {
+                controller = articleController;
             }
+            else if ( controllerName.equals("member")) {
+                controller = memberController;
+            }
+            else {
+                System.out.println("존재하지 않는 명령어 입니다.");
+                continue;
+            }
+
+            controller.doAction(cmd, actionMethodName);
         }
+
             sc.close();
             System.out.println("== 프로그램 끝 ==");
     }
