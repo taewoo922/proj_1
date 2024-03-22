@@ -1,8 +1,6 @@
 package org.example.DTO;
 
-public class Article {
-    public int id;
-    public String regDate;
+public class Article extends Dto{
     public String title;
     public String body;
 
@@ -17,6 +15,7 @@ public class Article {
     }
 
     public Article(int id, String regDate, String title, String body) {
+
         this(id, regDate, title, body, 0);
     }
 
