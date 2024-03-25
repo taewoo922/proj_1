@@ -1,6 +1,7 @@
 package org.example.controller;
 
-import org.example.DTO.Article;
+
+import org.example.Container;
 import org.example.DTO.Member;
 import org.example.util.Util;
 
@@ -14,17 +15,18 @@ public class MemberController extends Controller{
     private List<Member> members;
     private String cmd;
     private String actionMethodName;
-    private Member loginedMember;
+
 
     public MemberController(Scanner sc) {
         this.sc = sc;
-        members = new ArrayList<>();
+        members = Container.memberDao.members;
     }
 
 
     public void doAction(String cmd, String actionMethodName) {
-        this.actionMethodName = actionMethodName;
         this.cmd = cmd;
+        this.actionMethodName = actionMethodName;
+
 
         switch ( actionMethodName) {
             case "가입" :
@@ -45,9 +47,9 @@ public class MemberController extends Controller{
     public void makeTestData() {
         System.out.println("테스트를 위한 회원 데이터를 생성합니다");
 
-        members.add(new Member(1,Util.getNowDateStr(), "admin", "admin", "관리자"));
-        members.add(new Member(1,Util.getNowDateStr(), "user1", "user1", "영희"));
-        members.add(new Member(1,Util.getNowDateStr(), "user2", "user2", "니영"));
+        Container.memberDao.add(new Member(Container.memberDao.getNewId(),Util.getNowDateStr(), "admin", "admin", "관리자"));
+        Container.memberDao.add(new Member(Container.memberDao.getNewId(),Util.getNowDateStr(), "user1", "user1", "영희"));
+        Container.memberDao.add(new Member(Container.memberDao.getNewId(),Util.getNowDateStr(), "user2", "user2", "니영"));
 
 
     }
@@ -55,16 +57,16 @@ public class MemberController extends Controller{
     public void doJoin() {
 
 
-        int id = members.size() +1;
+        int id = Container.memberDao.getNewId();
         String regDate = Util.getNowDateStr();
 
         String loginId = null;
 
         while ( true ) {
-            System.out.println("Id를 입력해주세요");
+            System.out.printf("Id를 입력해주세요 : ");
             loginId = sc.nextLine();
 
-            if( isJoinableLoginId(loginId)) {
+            if( isJoinableLoginId(loginId) == false) {
                 System.out.printf("%s(은)는 이미 사용중인 아이디 입니다.\n", loginId);
                 continue;
             }
@@ -76,9 +78,9 @@ public class MemberController extends Controller{
         String loginPasswordConfirm = null;
 
         while ( true ) {
-            System.out.println("비밀먼호를 입력해주세요");
+            System.out.printf("비밀먼호를 입력해주세요 : ");
             loginPassword = sc.nextLine();
-            System.out.println("비밀먼호를 확인해주세요");
+            System.out.printf("비밀먼호를 확인해주세요 : ");
             loginPasswordConfirm = sc.nextLine();
 
             if (loginPassword.equals(loginPasswordConfirm) == false ) {
@@ -90,26 +92,21 @@ public class MemberController extends Controller{
 
         }
 
-        System.out.println("이름을 입력해주세요");
+        System.out.printf("이름을 입력해주세요");
         String name = sc.nextLine();
 
 
         Member member = new Member(id, regDate, loginId, loginPassword, name);
-        members.add(member);
+        Container.memberDao.add(member);
 
         System.out.printf("%s 회원이 생성되었습니다. 환영합니다.\n", id);
 
     }
 
     public void doLogin() {
-        if ( isLogined() ) {
-            System.out.println("이미 로그인 되어 있습니다.");
-            return ;
-        }
-
-        System.out.println("Id를 입력해주세요");
+        System.out.printf("Id를 입력해주세요:\n");
         String loginId = sc.nextLine();
-        System.out.println("비밀먼호를 입력해주세요");
+        System.out.printf("비밀먼호를 입력해주세요 : \n");
         String loginPassword = sc.nextLine();
 
         Member member = getMemberByLoginId(loginId);
@@ -128,15 +125,8 @@ public class MemberController extends Controller{
         System.out.printf("로그인 성공 %s님 환영합니다\n", loginedMember.name);
 
     }
-    private  boolean isLogined() {
-        return loginedMember != null;
-    }
 
     private void doLogout() {
-        if ( isLogined() == false ) {
-            System.out.println("로그인 해주세요");
-            return;
-        }
 
         loginedMember = null;
         System.out.println("로그아웃 되었습니다.");
@@ -146,7 +136,7 @@ public class MemberController extends Controller{
     private boolean isJoinableLoginId(String loginId) {
         int index = getMemberIndexByLoginId(loginId);
 
-        if( index != -1) {
+        if( index == -1) {
             return true;
         }
         return false;
