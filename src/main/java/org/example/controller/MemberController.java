@@ -1,12 +1,11 @@
 package org.example.controller;
 
 
-import org.example.Container;
+import org.example.container.Container;
 import org.example.DTO.Member;
-import org.example.MemberService.MemberService;
+import org.example.service.MemberService;
 import org.example.util.Util;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 

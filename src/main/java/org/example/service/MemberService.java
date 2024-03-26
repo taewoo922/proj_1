@@ -1,6 +1,6 @@
-package org.example.MemberService;
+package org.example.service;
 
-import org.example.Container;
+import org.example.container.Container;
 import org.example.DTO.Member;
 import org.example.dao.MemberDao;
 
@@ -12,6 +12,7 @@ public class MemberService {
     }
 
     public void add(Member member) {
+
         memberDao.add(member);
     }
 
@@ -21,5 +22,9 @@ public class MemberService {
 
     public int getMemberIndexByLoginId(String loginId) {
         return memberDao.getMemberIndexByLoginId(loginId);
+    }
+
+    public String getMemberNameById(int memberId) {
+        return memberDao.getMemberNameById(memberId);
     }
 }

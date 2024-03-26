@@ -1,7 +1,8 @@
 package org.example.service;
 
-import org.example.Container;
+import org.example.container.Container;
 import org.example.DTO.Article;
+import org.example.container.Container;
 import org.example.dao.ArticleDao;
 
 import java.util.ArrayList;
@@ -15,6 +16,10 @@ public class ArticleService {
 
     public List<Article> getForPrintArticles(String searchKeyword) {
         return articleDao.getForPrintArticles(searchKeyword);
+    }
+
+    public List<Article> getForPrintArticles() {
+        return articleDao.getForPrintArticles(null);
     }
 
     public Article getArticleById(int id) {
