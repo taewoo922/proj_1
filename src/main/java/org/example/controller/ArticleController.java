@@ -50,9 +50,9 @@ public class ArticleController extends Controller {
     public void makeTestData() {
         System.out.println("테스트를 위한 게시물 데이터를 생성합니다");
 
-       Container.articleDao.add(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(),1, "제목 1", "내용 1", 13));
-        Container.articleDao.add(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(),2, "제목 2", "내용 2", 15));
-        Container.articleDao.add(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(),3, "제목 3", "내용 3", 100));
+        articleService.write(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(),1, "제목 1", "내용 1", 13));
+        articleService.write(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(),2, "제목 2", "내용 2", 15));
+        articleService.write(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(),3, "제목 3", "내용 3", 100));
 
 
     }
@@ -67,7 +67,7 @@ public class ArticleController extends Controller {
 
 
         Article article = new Article(id, regDate, loginedMember.id,title, body);
-        Container.articleDao.add(article);
+        articleService.write(article);
 
         System.out.printf("%d번 게시물이 생성되었습니다.\n", id);
     }
