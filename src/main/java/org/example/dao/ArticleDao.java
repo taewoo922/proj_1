@@ -1,11 +1,32 @@
 package org.example.dao;
 
 import org.example.DTO.Article;
+import org.example.container.Container;
+import org.example.db.DBConnection;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class ArticleDao extends Dao{
     private List<Article> articles;
+    private DBConnection dbConnection;
+
+    public List<Article> getArticles() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("SELECT * FROM article"));
+
+        List<Article> articles = new ArrayList<>();
+        List<Map<String, Object>> rows = dbConnection.selectRows(sb.toString());
+
+        for ( Map<String, Object> row : rows){
+            articles.add(new Article((row)));
+        }
+
+        return articles;
+    }
     public int getArticleIndexById(int id) {
         int i = 0;
         for (Article article : articles) {
@@ -29,6 +50,7 @@ public class ArticleDao extends Dao{
 
     public ArticleDao() {
         articles = new ArrayList<>();
+        dbConnection = Container.getDBConnection();
     }
 
     public void add(Article article) {

@@ -55,9 +55,9 @@ public class ArticleController extends Controller {
     public void makeTestData() {
         System.out.println("테스트를 위한 게시물 데이터를 생성합니다");
 
-        articleService.write(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(),1, "제목 1", "내용 1", 13));
-        articleService.write(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(),2, "제목 2", "내용 2", 15));
-        articleService.write(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(),3, "제목 3", "내용 3", 100));
+        articleService.write(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(),1, 1, "제목 1", "내용 1", 13));
+        articleService.write(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(),2, 2, "제목 2", "내용 2", 15));
+        articleService.write(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(),3, 1, "제목 3", "내용 3", 100));
 
 
     }
@@ -71,21 +71,26 @@ public class ArticleController extends Controller {
         String body = sc.nextLine();
 
         Member loginedMember = session.getLoginedMember();
-        Article article = new Article(id, regDate, loginedMember.id,title, body);
+        int boardId = 1;
+
+        Article article = new Article(id, regDate, loginedMember.id, boardId, title, body);
         articleService.write(article);
 
         System.out.printf("%d번 게시물이 생성되었습니다.\n", id);
     }
 
     public void showList() {
-        String searchKeyword = cmd.substring("게시물 목록".length()).trim();
-        //사용자가 검색어를 입력하면 searchKeyword에 담는다
-        List<Article> forPrintArticles = Container.articleService.getForPrintArticles(searchKeyword);
 
-        if (forPrintArticles.size() == 0) {
-            System.out.println("검색결과가 존재하지 않습니다");
-            return;
-        }
+        List<Article> forPrintArticles = articleService.getArticles();
+
+//        String searchKeyword = cmd.substring("게시물 목록".length()).trim();
+        //사용자가 검색어를 입력하면 searchKeyword에 담는다
+//        List<Article> forPrintArticles = Container.articleService.getForPrintArticles(searchKeyword);
+
+//        if (forPrintArticles.size() == 0) {
+//            System.out.println("검색결과가 존재하지 않습니다");
+//            return;
+//        }
 
 
         System.out.println(" 번호 | 작성자 | 조회 | 제목 ");      //만약 검색어를 입력하지 않고 그냥 검색어 목록만

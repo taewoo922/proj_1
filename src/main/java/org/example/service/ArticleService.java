@@ -33,4 +33,8 @@ public class ArticleService {
     public void write(Article article) {
         articleDao.add(article);
     }
+
+    public List<Article> getArticles() {
+        return articleDao.getArticles();
+    }
 }
