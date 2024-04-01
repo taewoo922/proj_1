@@ -1,6 +1,7 @@
 package org.example.controller;
 
 
+import org.example.DTO.Member;
 import org.example.container.Container;
 import org.example.DTO.Article;
 import org.example.service.ArticleService;
@@ -17,11 +18,13 @@ public class ArticleController extends Controller {
     private String actionMethodName;
     private ArticleService articleService;
     private MemberService memberService;
+    private Session session;
 
     public ArticleController(Scanner sc) {
         this.sc = sc;
         articleService = Container.articleService;
         memberService = Container.memberService;
+        session = Container.getSession();
     }
     public void doAction(String cmd, String actionMethodName) {
         this.actionMethodName = actionMethodName;
@@ -67,7 +70,7 @@ public class ArticleController extends Controller {
         System.out.println("내용 : ");
         String body = sc.nextLine();
 
-
+        Member loginedMember = session.getLoginedMember();
         Article article = new Article(id, regDate, loginedMember.id,title, body);
         articleService.write(article);
 
@@ -101,6 +104,7 @@ public class ArticleController extends Controller {
         int id = Integer.parseInt(cmdBits[2]);
 
         Article foundArticle = articleService.getArticleById(id);
+        Member loginedMember = session.getLoginedMember();
 
             if (foundArticle == null) {
                 //foundarticle이 null값이라면 실행
@@ -132,6 +136,7 @@ public class ArticleController extends Controller {
         int id = Integer.parseInt(cmdBits[2]);
 
         Article foundArticle = articleService.getArticleById(id);
+        Member loginedMember = session.getLoginedMember();
 
             if (foundArticle == null) {
                 //foundarticle이 null값이라면 실행

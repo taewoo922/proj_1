@@ -18,10 +18,12 @@ public class MemberController extends Controller{
 
     private MemberService memberService;
 
+    private Session session;
 
     public MemberController(Scanner sc) {
         this.sc = sc;
         memberService = Container.memberService;
+        session = Container.getSession();
 
     }
 
@@ -124,14 +126,17 @@ public class MemberController extends Controller{
             return;
         }
 
-        loginedMember = member;
+
+        session.setLoginedMember(member);
+        Member loginedMember = session.getLoginedMember();
+
         System.out.printf("로그인 성공 %s님 환영합니다\n", loginedMember.name);
 
     }
 
     private void doLogout() {
 
-        loginedMember = null;
+        session.setLoginedMember(null);
         System.out.println("로그아웃 되었습니다.");
 
     }
