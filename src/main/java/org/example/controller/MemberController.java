@@ -50,15 +50,6 @@ public class MemberController extends Controller{
         }
     }
 
-    public void makeTestData() {
-        System.out.println("테스트를 위한 회원 데이터를 생성합니다");
-
-        memberService.add(new Member(Container.memberDao.getNewId(),Util.getNowDateStr(), "admin", "admin", "관리자"));
-        memberService.add(new Member(Container.memberDao.getNewId(),Util.getNowDateStr(), "user1", "user1", "영희"));
-        memberService.add(new Member(Container.memberDao.getNewId(),Util.getNowDateStr(), "user2", "user2", "니영"));
-
-
-    }
 
     public void doJoin() {
 

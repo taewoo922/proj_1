@@ -13,6 +13,11 @@ public class ArticleDao extends Dao{
     private List<Article> articles;
     private DBConnection dbConnection;
 
+    public void write(Article article) {
+        articles.add(article);
+        lastId = article.id;
+    }
+
     public List<Article> getArticles() {
         StringBuilder sb = new StringBuilder();
 

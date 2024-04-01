@@ -52,15 +52,6 @@ public class ArticleController extends Controller {
         }
     }
 
-    public void makeTestData() {
-        System.out.println("테스트를 위한 게시물 데이터를 생성합니다");
-
-        articleService.write(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(),1, 1, "제목 1", "내용 1", 13));
-        articleService.write(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(),2, 2, "제목 2", "내용 2", 15));
-        articleService.write(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(),3, 1, "제목 3", "내용 3", 100));
-
-
-    }
 
     public void doWrite() {
         int id = Container.articleDao.getNewId(); //articles.size() 데이터를 몇개 넣었는지 반환해준다.

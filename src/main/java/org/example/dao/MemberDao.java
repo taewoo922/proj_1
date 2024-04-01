@@ -2,16 +2,21 @@ package org.example.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.example.DTO.Article;
 import org.example.DTO.Member;
+import org.example.container.Container;
+import org.example.db.DBConnection;
 
 public class MemberDao extends Dao {
     public List<Member> members;
+    private DBConnection dbConnection;
 
     public MemberDao() {
 
         members = new ArrayList<>();
+        dbConnection = Container.getDBConnection();
     }
     public void add(Member member) {
         members.add(member);
@@ -31,12 +36,15 @@ public class MemberDao extends Dao {
     }
 
     public Member getMemberByLoginId(String loginId) {
-        int index = getMemberIndexByLoginId(loginId);
+        StringBuilder sb = new StringBuilder();
 
-        if (index == -1) {
-            return null;
-        }
-        return members.get(index);
+        sb.append(String.format("SELECT * "));
+        sb.append(String.format("FROm`member` "));
+        sb.append(String.format("WHERE loginId = '%s' ", loginId));
+
+        Map<String, Object> memberRow = dbConnection.selectRow((sb.toString()));
+
+        return new Member(memberRow);
     }
 
     public String getMemberNameById(int id) {
