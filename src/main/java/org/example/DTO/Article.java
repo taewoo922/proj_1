@@ -1,5 +1,11 @@
 package org.example.DTO;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+
 public class Article extends Dto{
     public String title;
     public String body;
