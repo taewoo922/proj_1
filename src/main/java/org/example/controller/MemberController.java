@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class MemberController extends Controller{
     private Scanner sc;
 
-    private List<Member> members;
+//    private List<Member> members;
     private String cmd;
     private String actionMethodName;
 
@@ -22,6 +22,7 @@ public class MemberController extends Controller{
 
     public MemberController(Scanner sc) {
         this.sc = sc;
+
         memberService = Container.memberService;
         session = Container.getSession();
 

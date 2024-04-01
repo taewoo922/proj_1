@@ -11,7 +11,7 @@ public class Session {
     public  Member getLoginedMember() {
         return loginedMember;
     }
-    public void setLoginedMember(Member member) {
+    public void setLoginedMember(Member loginedMember) {
         this.loginedMember = loginedMember;
     }
     public boolean isLogined() {
