@@ -18,42 +18,32 @@ public class MemberDao extends Dao {
         members = new ArrayList<>();
         dbConnection = Container.getDBConnection();
     }
-    public void add(Member member) {
-        members.add(member);
-        lastId= member.id;
+    public int add(Member member) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("INSERT INTO `member` "));
+        sb.append(String.format("SET regDate = NOW(), "));
+        sb.append(String.format("updateDate = NOW(), "));
+        sb.append(String.format("loginId = '%s' ",member.loginId));
+        sb.append(String.format("loginPassword = '%s' ",member.loginPassword));
+        sb.append(String.format("`name` = '%s' ",member.name));
+
+        return dbConnection.insert(sb.toString());
     }
 
-    public int getMemberIndexByLoginId(String loginId) {
-        int i = 0;
 
-        for (Member member : members) {
-            if ( member.loginId.equals(loginId) ) {
-                return i;
-            }
-            i++;
-        }
-        return -1;
-    }
+
 
     public Member getMemberByLoginId(String loginId) {
         StringBuilder sb = new StringBuilder();
 
         sb.append(String.format("SELECT * "));
-        sb.append(String.format("FROm`member` "));
+        sb.append(String.format("FROM `member` "));
         sb.append(String.format("WHERE loginId = '%s' ", loginId));
 
         Map<String, Object> memberRow = dbConnection.selectRow((sb.toString()));
 
         return new Member(memberRow);
-    }
-
-    public String getMemberNameById(int id) {
-        for ( Member member : members) {
-            if (member.id == id ) {
-                return member.name;
-            }
-        }
-        return "";
     }
 }
 

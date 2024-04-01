@@ -12,9 +12,7 @@ public class Member extends Dto{
     public String loginPassword;
     public String name;
 
-    public Member(int id, String regDate, String loginId, String loginPassword, String name) {
-        this.id = id;
-        this.regDate = regDate;
+    public Member(String loginId, String loginPassword, String name) {
         this.loginId = loginId;
         this.loginPassword = loginPassword;
         this.name = name;

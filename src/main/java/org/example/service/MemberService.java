@@ -11,20 +11,16 @@ public class MemberService {
         memberDao = Container.memberDao;
     }
 
-    public void add(Member member) {
-
-        memberDao.add(member);
+    public int add(String loginId, String loginPassword, String name) {
+        Member member = new Member(loginId, loginPassword, name);
+        return memberDao.add(member);
     }
 
     public Member getMemberByLoginId(String loginId) {
         return memberDao.getMemberByLoginId(loginId);
     }
 
-    public int getMemberIndexByLoginId(String loginId) {
-        return memberDao.getMemberIndexByLoginId(loginId);
-    }
-
     public String getMemberNameById(int memberId) {
-        return memberDao.getMemberNameById(memberId);
+        return null;
     }
 }
