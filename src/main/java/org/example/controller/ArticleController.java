@@ -109,9 +109,9 @@ public class ArticleController extends Controller {
         System.out.println(" 번호 | 작성자 | 조회 | 제목 ");      //만약 검색어를 입력하지 않고 그냥 검색어 목록만
         for (int i = forPrintArticles.size() - 1; i >= 0; i--) {  //입력하면 모든 목록을 보여준다.
             Article article = forPrintArticles.get(i);
-            String writerName = memberService.getMemberNameById(article.memberId);
+            Member member = memberService.getMember(article.memberId);
 
-            System.out.printf(" %4d | %6s | %4d | %s \n", article.id, writerName, article.hit, article.title);
+            System.out.printf(" %4d | %6s | %4d | %s \n", article.id, member.name, article.hit, article.title);
         }
     }
 
@@ -188,10 +188,11 @@ public class ArticleController extends Controller {
             }
 
             foundarticle.increaseHit();
+            Member member = memberService.getMember(foundarticle.memberId);
 
             System.out.printf("번호 : %d\n", foundarticle.id);
             System.out.printf("날짜 : %s\n", foundarticle.regDate);
-            System.out.printf("작성자 : %d\n", foundarticle.memberId);
+            System.out.printf("작성자 : %s\n", member.name);
             System.out.printf("제목 : %s\n", foundarticle.title);
             System.out.printf("내용 : %s\n", foundarticle.body);
             System.out.printf("조회 : %d\n", foundarticle.hit);

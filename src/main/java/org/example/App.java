@@ -28,6 +28,17 @@ public class App {
 
 
         System.out.println("== 프로그램 시작 ==");
+        System.out.println("== 명령어 모음 ==");
+        System.out.println("1. 회원가입 : 회원 가입");
+        System.out.println("2. 로그인/로그아웃 : 회원 로그인/회원 로그아웃");
+        System.out.println("3. 현재 게시판 확인 : 게시물 현재게시판");
+        System.out.println("4. 게시판 변경: 게시물 게시판변경");
+        System.out.println("5. 게시물 리스트 : 게시물 목록");
+        System.out.println("6. 게시물 상세 : 게시물 상세 [게시물번호]");
+        System.out.println("7. 게시물 작성(로그인 후 이용가능) : 게시물 작성");
+        System.out.println("5. 게시물 수정/삭제(로그인 후 이용가능) : 게시물 수정/삭제 [게시물번호]");
+
+
 
 
         Scanner sc = new Scanner(System.in);
