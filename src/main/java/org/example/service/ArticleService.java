@@ -1,5 +1,6 @@
 package org.example.service;
 
+import org.example.DTO.Board;
 import org.example.container.Container;
 import org.example.DTO.Article;
 import org.example.container.Container;
@@ -36,5 +37,14 @@ public class ArticleService {
 
     public List<Article> getArticles() {
         return articleDao.getArticles();
+    }
+
+    public int write(int memberId, int boardId, String title, String body) {
+        Article article = new Article(memberId, boardId, title, body);
+        return articleDao.write(article);
+    }
+
+    public Board getBoard(int id) {
+        return articleDao.getBoard(id);
     }
 }

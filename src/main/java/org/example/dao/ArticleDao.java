@@ -1,6 +1,7 @@
 package org.example.dao;
 
 import org.example.DTO.Article;
+import org.example.DTO.Board;
 import org.example.container.Container;
 import org.example.db.DBConnection;
 
@@ -13,9 +14,18 @@ public class ArticleDao extends Dao{
     private List<Article> articles;
     private DBConnection dbConnection;
 
-    public void write(Article article) {
-        articles.add(article);
-        lastId = article.id;
+    public int write(Article article) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("INSERT INTO article"));
+        sb.append(String.format("SET regDate = NOW(), "));
+        sb.append(String.format("updatedate = NOW(), "));
+        sb.append(String.format("title = '%s', ", article.title));
+        sb.append(String.format("`body` = '%s', ", article.body));
+        sb.append(String.format("memberId = %d, ", article.memberId));
+        sb.append(String.format("boadrId = %d, ", article.boardId));
+
+        return dbConnection.insert(sb.toString());
     }
 
     public List<Article> getArticles() {
@@ -80,5 +90,21 @@ public class ArticleDao extends Dao{
 
     public void remove(Article foundArticle) {
         articles.remove(foundArticle);
+    }
+
+    public Board getBoard(int id) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("SELECT * "));
+        sb.append(String.format("FROM `board`"));
+        sb.append(String.format("Where id = %d "));
+
+        Map<String, Object> row = dbConnection.selectRow(sb.toString());
+
+        if (row.isEmpty()) {
+            return null;
+        }
+
+        return new Board(row);
     }
 }

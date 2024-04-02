@@ -19,8 +19,7 @@ public class Member extends Dto{
     }
 
     public Member (Map<String, Object> row){
-//        super(row);
-        this.id = (int) row.get("id");
+        super(row);
         this.loginId = (String) row.get("loginId");
         this.loginPassword = (String) row.get("loginPassword");
         this.name = (String) row.get("name");
