@@ -20,7 +20,7 @@ public class App {
         Container.getDBConnection().connect();
 
         //현재 게시판을 1번 게시판으로 선택
-        Container.getSession().setCurrentBoard(Container.articleService.getBoard(1));
+        Container.getSession().setCurrentBoard(Container.articleService.getBoard(2));
     }
 
 
