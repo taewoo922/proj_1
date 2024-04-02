@@ -24,6 +24,8 @@ public class ArticleDao extends Dao{
         sb.append(String.format("`body` = '%s', ", article.body));
         sb.append(String.format("memberId = %d, ", article.memberId));
         sb.append(String.format("boardId = %d ", article.boardId));
+        sb.append(String.format("hit = %d ", article.hit));
+
 
         return dbConnection.insert(sb.toString());
     }
@@ -59,25 +61,21 @@ public class ArticleDao extends Dao{
 
         return articles;
     }
-    public int getArticleIndexById(int id) {
-        int i = 0;
-        for (Article article : articles) {
-            if (article.id == id) {
-                return i;
-            }
-            i++;
+
+    public Article getArticle(int id) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("SELECT * "));
+        sb.append(String.format("FROM article "));
+        sb.append(String.format("WHERE id = %d ",id));
+
+        Map<String, Object> row = dbConnection.selectRow(sb.toString());
+
+        if (row.isEmpty()) {
+            return null;
         }
-        return -1;
-    }
 
-
-    public Article getArticleById(int id) {
-        int index = getArticleIndexById(id);
-
-        if (index != -1) {
-            return articles.get(index);
-        }
-        return null;
+        return new Article(row);
     }
 
     public ArticleDao() {
@@ -125,4 +123,25 @@ public class ArticleDao extends Dao{
         return new Board(row);
     }
 
+    public int modify(int id, String title, String body) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("UPDATE article "));
+        sb.append(String.format("SET updateDate = NOW(), "));
+        sb.append(String.format("title = '%s', ",title));
+        sb.append(String.format("body = '%s' ",body));
+        sb.append(String.format("WHERE id = %d ",id));
+
+        return dbConnection.update(sb.toString());
+
+    }
+
+    public int delete(int id) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("DELETE FROM article "));
+        sb.append(String.format("WHERE id = %d ",id));
+
+        return dbConnection.delete(sb.toString());
+    }
 }

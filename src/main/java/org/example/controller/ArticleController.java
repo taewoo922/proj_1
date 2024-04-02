@@ -121,7 +121,7 @@ public class ArticleController extends Controller {
         String[] cmdBits = cmd.split(" ");
         int id = Integer.parseInt(cmdBits[2]);
 
-        Article foundArticle = articleService.getArticleById(id);
+        Article foundArticle = articleService.getArticle(id);
         Member loginedMember = session.getLoginedMember();
 
             if (foundArticle == null) {
@@ -140,10 +140,9 @@ public class ArticleController extends Controller {
             System.out.println("내용 : ");
             String body = sc.nextLine();
 
-            foundArticle.title = title;
-            foundArticle.body = body;
+           articleService.modify(foundArticle.id, title, body);
 
-            System.out.printf("%d번 게시물이 수정되었습니다.\n", id);
+            System.out.printf("%d번 게시물이 수정되었습니다.\n", foundArticle.id);
         }
 
 
@@ -153,7 +152,7 @@ public class ArticleController extends Controller {
         String[] cmdBits = cmd.split(" ");
         int id = Integer.parseInt(cmdBits[2]);
 
-        Article foundArticle = articleService.getArticleById(id);
+        Article foundArticle = articleService.getArticle(id);
         Member loginedMember = session.getLoginedMember();
 
             if (foundArticle == null) {
@@ -167,8 +166,8 @@ public class ArticleController extends Controller {
             return;
         }
 
-        articleService.remove(foundArticle);
-        System.out.printf("%d번 게시물이 삭제되었습니다.\n", id);
+        articleService.delete(foundArticle.id);
+        System.out.printf("%d번 게시물이 삭제되었습니다.\n", foundArticle.id);
         }
 
 
