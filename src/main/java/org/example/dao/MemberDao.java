@@ -53,7 +53,7 @@ public class MemberDao extends Dao {
 
         sb.append(String.format("SELECT * "));
         sb.append(String.format("FROM `member` "));
-        sb.append(String.format("WHERE loginId = %d ", id));
+        sb.append(String.format("WHERE id = %d ", id));
 
         Map<String, Object> row = dbConnection.selectRow((sb.toString()));
 
