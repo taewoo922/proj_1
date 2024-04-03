@@ -7,9 +7,6 @@ import org.example.controller.ExportController;
 import org.example.controller.MemberController;
 import org.example.db.DBConnection;
 
-
-import java.util.Scanner;
-
 public class App {
     public App() {
         DBConnection.DB_NAME = "sbs_proj";
@@ -40,19 +37,14 @@ public class App {
 
 
 
+        MemberController memberController = new MemberController();
+        ArticleController articleController = new ArticleController();
+        ExportController exportController = new ExportController();
 
-        Scanner sc = new Scanner(System.in);
-
-        MemberController memberController = new MemberController(sc);
-        ArticleController articleController = new ArticleController(sc);
-        ExportController exportController = new ExportController(sc);
-
-//        articleController.makeTestData();
-//        memberController.makeTestData();
 
         while (true) {
             System.out.printf("명령어) ");
-            String cmd = sc.nextLine();   //사용자의 키보드 입력을 받는애,
+            String cmd = Container.getScanner().nextLine();   //사용자의 키보드 입력을 받는애,
             cmd = cmd.trim();
 
 
@@ -118,7 +110,9 @@ public class App {
 
         }
 
-        sc.close();
+        Container.getDBConnection().close();
+        Container.getScanner().close();
+
         System.out.println("== 프로그램 끝 ==");
     }
 }

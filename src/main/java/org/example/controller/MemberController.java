@@ -4,25 +4,17 @@ package org.example.controller;
 import org.example.container.Container;
 import org.example.DTO.Member;
 import org.example.service.MemberService;
-import org.example.util.Util;
-
-import java.util.List;
 import java.util.Scanner;
 
 public class MemberController extends Controller{
     private Scanner sc;
 
-//    private List<Member> members;
-    private String cmd;
-    private String actionMethodName;
-
     private MemberService memberService;
 
     private Session session;
 
-    public MemberController(Scanner sc) {
-        this.sc = sc;
-
+    public MemberController() {
+        sc = Container.getScanner();
         memberService = Container.memberService;
         session = Container.getSession();
 
@@ -30,9 +22,6 @@ public class MemberController extends Controller{
 
 
     public void doAction(String cmd, String actionMethodName) {
-        this.cmd = cmd;
-        this.actionMethodName = actionMethodName;
-
 
         switch ( actionMethodName) {
             case "가입" :

@@ -8,7 +8,10 @@ import org.example.dao.MemberDao;
 import org.example.service.ArticleService;
 import org.example.service.ExportService;
 
+import java.util.Scanner;
+
 public class Container {
+    public static Scanner sc;
     public static Session session;
     public static DBConnection dbConnection;
     public static ArticleDao articleDao;
@@ -24,6 +27,12 @@ public class Container {
         articleService = new ArticleService();
         memberService = new MemberService();
         exportService = new ExportService();
+    }
+    public  static Scanner getScanner() {
+        if (sc == null) {
+            sc =  new Scanner(System.in);
+        }
+        return sc;
     }
 
     public  static Session getSession() {

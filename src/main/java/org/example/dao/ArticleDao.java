@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class ArticleDao extends Dao{
-    private List<Article> articles;
     private DBConnection dbConnection;
 
     public int write(Article article) {
@@ -23,7 +22,7 @@ public class ArticleDao extends Dao{
         sb.append(String.format("title = '%s', ", article.title));
         sb.append(String.format("`body` = '%s', ", article.body));
         sb.append(String.format("memberId = %d, ", article.memberId));
-        sb.append(String.format("boardId = %d ", article.boardId));
+        sb.append(String.format("boardId = %d, ", article.boardId));
         sb.append(String.format("hit = %d ", article.hit));
 
 
@@ -79,33 +78,19 @@ public class ArticleDao extends Dao{
     }
 
     public ArticleDao() {
-        articles = new ArrayList<>();
+
         dbConnection = Container.getDBConnection();
     }
 
     public void add(Article article) {
-        articles.add(article);
+
         lastId = article.id;
     }
 
     public List<Article> getForPrintArticles(String searchKeyword) {
-
-        if (searchKeyword != null && searchKeyword.length() != 0) {
-            List<Article> forListArticles = new ArrayList<>();
-
-                for (Article article : articles) {                //그리고 반복문을 통해 기존 리스트를 돌고
-                    if (article.title.contains(searchKeyword)) {  //키워드를 포함한 타이틀이 있다면
-                        forListArticles.add(article);              //그 article을 새로운 리스트에 추가한다.
-                    }
-                }
-            return  forListArticles;
-            }
-        return articles;
+        return null;
     }
 
-    public void remove(Article foundArticle) {
-        articles.remove(foundArticle);
-    }
 
     public Board getBoard(int id) {
         StringBuilder sb = new StringBuilder();

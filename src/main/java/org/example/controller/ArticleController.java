@@ -9,6 +9,7 @@ import org.example.service.ArticleService;
 import org.example.service.MemberService;
 import org.example.util.Util;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,14 +22,13 @@ public class ArticleController extends Controller {
     private MemberService memberService;
     private Session session;
 
-    public ArticleController(Scanner sc) {
-        this.sc = sc;
+    public ArticleController() {
+        sc = Container.getScanner();
         articleService = Container.articleService;
         memberService = Container.memberService;
         session = Container.getSession();
     }
     public void doAction(String cmd, String actionMethodName) {
-        this.actionMethodName = actionMethodName;
         this.cmd = cmd;
 
         switch ( actionMethodName ) {
@@ -51,7 +51,7 @@ public class ArticleController extends Controller {
                 doCurrentBoard();
                 break;
             case "게시판변경":
-                dochangeBoard();
+                doChangeBoard();
                 break;
             default:
                 System.out.println("존재하지 않는 명령어 입니다.");
@@ -59,10 +59,27 @@ public class ArticleController extends Controller {
         }
     }
 
-    private void dochangeBoard() {
-        String[] cmdBits = cmd.split(" ");
-        int boardId = Integer.parseInt(cmdBits[2]);
+    private void doChangeBoard() {
+
+        System.out.println("1. 공지 게시판");
+        System.out.println("2. 자유 게시판");
+        System.out.print("게시판 번호를 입력하세요) ");
+
+        int boardId = 0;
+
+        try {
+            boardId = sc.nextInt();
+            sc.nextLine();
+        }
+
+        catch ( InputMismatchException e) {
+            System.out.println("잘못 입력하셨습니다.");
+            sc.nextLine();
+            return;
+        }
+
         Board board = articleService.getBoard(boardId);
+
         if (board == null) {
             System.out.println("해당 게시판은 존재하지 않습니다.");
         }
@@ -111,15 +128,18 @@ public class ArticleController extends Controller {
             Article article = forPrintArticles.get(i);
             Member member = memberService.getMember(article.memberId);
 
-            System.out.printf(" %4d | %6s | %4d | %s \n", article.id, member.name, article.hit, article.title);
+            System.out.printf(" %4d | %5s | %4d | %s \n", article.id, member.name, article.hit, article.title);
         }
     }
 
 
     public  void doModify() {
 
-        String[] cmdBits = cmd.split(" ");
-        int id = Integer.parseInt(cmdBits[2]);
+        int id = checkScNum();
+
+        if (id == 0) {
+            return;
+        }
 
         Article foundArticle = articleService.getArticle(id);
         Member loginedMember = session.getLoginedMember();
@@ -147,10 +167,11 @@ public class ArticleController extends Controller {
 
 
     public void doDelete() {
+        int id = checkScNum();
 
-
-        String[] cmdBits = cmd.split(" ");
-        int id = Integer.parseInt(cmdBits[2]);
+        if (id == 0) {
+            return;
+        }
 
         Article foundArticle = articleService.getArticle(id);
         Member loginedMember = session.getLoginedMember();
@@ -173,10 +194,11 @@ public class ArticleController extends Controller {
 
 
     public void showDetail() {
+        int id = checkScNum();
 
-
-        String[] cmdBits = cmd.split(" ");
-        int id = Integer.parseInt(cmdBits[2]);
+        if (id == 0) {
+            return;
+        }
 
         Article foundarticle = articleService.getForPrintArticle(id);
 
@@ -196,6 +218,24 @@ public class ArticleController extends Controller {
             System.out.printf("제목 : %s\n", foundarticle.title);
             System.out.printf("내용 : %s\n", foundarticle.body);
             System.out.printf("조회 : %d\n", foundarticle.hit);
+        }
+
+        public int checkScNum() {
+            System.out.print("게시물 번호를 입력하세요) ");
+
+            int id = 0;
+
+            try {
+                id = sc.nextInt();
+                sc.nextLine();
+            }
+
+            catch ( InputMismatchException e) {
+                System.out.println("잘못 입력하셨습니다.");
+                sc.nextLine();
+                return 0;
+            }
+            return  id;
         }
 }
 

@@ -10,12 +10,10 @@ import org.example.container.Container;
 import org.example.db.DBConnection;
 
 public class MemberDao extends Dao {
-    public List<Member> members;
     private DBConnection dbConnection;
 
     public MemberDao() {
 
-        members = new ArrayList<>();
         dbConnection = Container.getDBConnection();
     }
     public int add(Member member) {
@@ -24,9 +22,9 @@ public class MemberDao extends Dao {
         sb.append(String.format("INSERT INTO `member` "));
         sb.append(String.format("SET regDate = NOW(), "));
         sb.append(String.format("updateDate = NOW(), "));
-        sb.append(String.format("loginId = '%s', ",member.loginId));
-        sb.append(String.format("loginPassword = '%s',   ",member.loginPassword));
-        sb.append(String.format("`name` = '%s' ",member.name));
+        sb.append(String.format("loginId = '%s', ", member.loginId));
+        sb.append(String.format("loginPassword = '%s', ", member.loginPassword));
+        sb.append(String.format("`name` = '%s' ", member.name));
 
         return dbConnection.insert(sb.toString());
     }
@@ -41,13 +39,13 @@ public class MemberDao extends Dao {
         sb.append(String.format("FROM `member` "));
         sb.append(String.format("WHERE loginId = '%s' ", loginId));
 
-        Map<String, Object> memberRow = dbConnection.selectRow((sb.toString()));
+        Map<String, Object> row = dbConnection.selectRow((sb.toString()));
 
-        if( memberRow.isEmpty()) {
+        if( row.isEmpty()) {
             return  null;
         }
 
-        return new Member(memberRow);
+        return new Member(row);
     }
 
     public Member getMember(int id) {
@@ -57,13 +55,13 @@ public class MemberDao extends Dao {
         sb.append(String.format("FROM `member` "));
         sb.append(String.format("WHERE loginId = %d ", id));
 
-        Map<String, Object> memberRow = dbConnection.selectRow((sb.toString()));
+        Map<String, Object> row = dbConnection.selectRow((sb.toString()));
 
-        if( memberRow.isEmpty()) {
+        if( row.isEmpty() ) {
             return  null;
         }
 
-        return new Member(memberRow);
+        return new Member(row);
     }
 }
 
