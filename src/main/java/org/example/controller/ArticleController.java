@@ -193,7 +193,23 @@ public class ArticleController extends Controller {
         System.out.printf("%d번 게시물이 삭제되었습니다.\n", foundArticle.id);
         }
 
+    private boolean articleReplyAuthorityCheck() {
+        System.out.println("1) 네/ 2) 아니오");
+        System.out.printf("입력) ");
+        String replyCheck = sc.nextLine();
 
+        if (replyCheck.equals("1") || replyCheck.equals("네")) {
+            if (session.isLogined() == false) {
+                System.out.println("로그인 후 이용 가능합니다.");
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+        return true;
+
+    }
 
     public void showDetail() {
         System.out.print("게시물 번호를 입력하세요) ");
@@ -222,37 +238,44 @@ public class ArticleController extends Controller {
             System.out.printf("내용 : %s\n", foundarticle.body);
             System.out.printf("조회 : %d\n", foundarticle.hit);
 
-            System.out.println("댓글을 작성 하시겠습니다?");
-            System.out.println("1) 네/ 2) 아니오");
-            System.out.println("입력) ");
-            String replyCheck = sc.nextLine();
+            System.out.printf("== [%d번 게시물 댓글] ==\n",id);
+            articleRepliesShowList(id);
 
-            if ( replyCheck.equals("1") || replyCheck.equals("네")) {
-                if ( session.isLogined() == false) {
-                    System.out.println("로그인 후 이용 가능합니다.");
-                    return;
-                }
+            System.out.println("댓글을 작성 하시겠습니까?");
+            boolean replyCheck = articleReplyAuthorityCheck();
 
-                System.out.println("댓글을 입력 해주세요");
-                System.out.printf("입력) ");
-                String replyBody = sc.nextLine();
-                int memberId = session.getLoginedMember().getId();
-
-                articleService.replyWrite(id, memberId, replyBody);
-                System.out.println("댓글이 작성되었습니다.");
-
-                List<ArticleReply> forPrintArticleReplies = articleService.getForPrintArticleReplies(id);
-
-                System.out.printf("%d번 게시물 댓글\n", id);
-                System.out.println(" 번호 | 작성자 | 제목 ");      //만약 검색어를 입력하지 않고 그냥 검색어 목록만
-                for (int i = forPrintArticleReplies.size() - 1; i >= 0; i--) {  //입력하면 모든 목록을 보여준다.
-                    ArticleReply reply = forPrintArticleReplies.get(i);
-                    Member replyMember = memberService.getMember(reply.memberId);
-
-                    System.out.printf(" %4d | %5s | %s \n", reply.id, replyMember.name, reply.body);
-                }
+            if ( replyCheck == false ) {
+                return;
             }
 
+            if ( replyCheck ) {
+
+                    System.out.println("댓글을 입력 해주세요");
+                    System.out.printf("입력) ");
+                    String replyBody = sc.nextLine();
+                    int memberId = session.getLoginedMember().getId();
+
+                    articleService.replyWrite(id, memberId, replyBody);
+                    System.out.println("댓글이 작성되었습니다.");
+
+                    articleRepliesShowList(id);
+
+            }
+
+    }
+
+
+        private void articleRepliesShowList(int articleId) {
+            List<ArticleReply> forPrintArticleReplies = articleService.getForPrintArticleReplies(articleId);
+
+            System.out.printf("%d번 게시물 댓글\n", articleId);
+            System.out.println(" 번호 | 작성자 | 제목 ");      //만약 검색어를 입력하지 않고 그냥 검색어 목록만
+            for (int i = forPrintArticleReplies.size() - 1; i >= 0; i--) {  //입력하면 모든 목록을 보여준다.
+                ArticleReply reply = forPrintArticleReplies.get(i);
+                Member replyMember = memberService.getMember(reply.memberId);
+
+                System.out.printf(" %4d | %5s | %s \n", reply.id, replyMember.name, reply.body);
+            }
         }
 
         public int checkScNum() {
